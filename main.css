@@ -1,0 +1,155 @@
+* {
+  box-sizing:border-box
+} 
+
+body {
+  margin:0;
+}
+
+ul {
+  /* height:18.875em; */
+  /* width:34em; */
+  height: 13.875em;
+  width:5em;
+  margin: 5em auto;
+  padding: 4em 0 0 3.4em;
+  position:relative;
+  border:1px solid #160801;
+  /* border-radius:1em; */
+  background-color: black;
+  /* background:linear-gradient(to bottom right,rgba(151, 129, 129, 0),rgba(0,0,0,0)),url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/187/vwood.png) !important;
+  box-shadow:0 0 50px rgba(0,0,0,0.5) inset,0 1px rgba(212,152,125,0.2) inset,0 5px 15px rgba(0,0,0,0.5); */
+}
+
+li {
+  margin:0;
+  padding:0;
+  list-style:none;
+  position:relative;
+  float:left
+}
+
+ul .whitenote {
+  /* height:16em;
+  width:4em; */
+  height: 20.5em;
+  width: 3.5em;
+  z-index:1;
+  border-left:1px solid #bbb;
+  border-bottom:1px solid #bbb;
+  border-radius:0 0 5px 5px;
+  box-shadow:-1px 0 0 rgba(255,255,255,0.8) inset,0 0 5px #ccc inset,0 0 3px rgba(0,0,0,0.2);
+  background:linear-gradient(to bottom,#eee 0%,#fff 100%);
+}
+
+ul .whitenote:active {
+  border-top:1px solid #777;
+  border-left:1px solid #999;
+  border-bottom:1px solid #999;
+  box-shadow:2px 0 3px rgba(0,0,0,0.1) inset,-5px 5px 20px rgba(0,0,0,0.2) inset,0 0 3px rgba(0,0,0,0.2);
+  background:linear-gradient(to bottom,#fff 0%,#e9e9e9 100%)
+}
+
+.blacknote {
+  height:8em;
+  width: 2.0em;
+  margin:0 0 0 -1em;
+  z-index:2;
+  border:1px solid #000;
+  border-radius:0 0 3px 3px;
+  box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -5px 2px 3px rgba(0,0,0,0.6) inset,0 2px 4px rgba(0,0,0,0.5);
+  background:linear-gradient(45deg,#221 0%,#555 100%);
+}
+
+.blacknote:active {
+  box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -2px 2px 3px rgba(0,0,0,0.6) inset,0 1px 2px rgba(0,0,0,0.5);
+  background:linear-gradient(to right,#444 0%,#222 100%)
+}
+
+.g,.a,.b,.d,.e {
+  margin:0 0 0 -1em
+}
+
+ul li:first-child {
+  border-radius:5px 0 5px 5px
+}
+
+ul li:last-child {
+  border-radius:0 5px 5px 5px
+}
+ul.one-octave {
+  /* background: border-box; */
+  width: 138%;
+  margin-left: -25px;
+  height: 400px;
+}
+dl, ol, ul {
+  margin-top: 0;
+  margin-bottom: 0 !important;
+}
+
+li.blacknote {
+  height: 65%;
+}
+
+.chord-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+div.chord-cell {
+  align-items: center;
+}
+
+.button-cell {
+  margin-left: 10px;
+}
+
+td {
+  border-left: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.table td, .table th{
+  vertical-align: inherit;
+  border-right: #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.classical-piano {
+  width: 210%;
+  /* height: 0%; */
+  overflow-x: scroll;
+}
+.classical-piano::-webkit-scrollbar {
+  display: none;
+}
+
+/* whitenote - START */
+/* đn css class cho phím tráng khi đc active */
+li.whitenote.active {
+  border-top: 1px solid #777;
+  border-left: 1px solid #999;
+  border-bottom: 1px solid #999;
+  box-shadow: 2px 0 3px rgba(0,0,0,0.1) inset, -5px 5px 20px rgba(0,0,0,0.2) inset, 0 0 3px rgba(0,0,0,0.2);
+  background: linear-gradient(to bottom,rgb(153, 171, 228) 0%,#222 100%);
+}
+/* li.whitenote {
+  height: 9.5em;
+  width:2.5em;
+  z-index:1;
+  border-left:1px solid #bbb;
+  border-bottom:1px solid #bbb;
+  border-radius:0 0 5px 5px;
+  box-shadow:-1px 0 0 rgba(255,255,255,0.8) inset,0 0 5px #ccc inset,0 0 3px rgba(0,0,0,0.2);
+  background:linear-gradient(to bottom,#eee 0%,#fff 100%);
+} */
+
+/* whitenote - END */
+
+/* blacknote - START */
+li.blacknote.active {
+  box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -2px 2px 3px rgba(0,0,0,0.6) inset,0 1px 2px rgba(0,0,0,0.5);
+  background:linear-gradient(to right,rgb(119, 141, 212) 0%,#222 100%)
+}
+/* blacknote - END */

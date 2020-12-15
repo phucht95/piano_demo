@@ -1,0 +1,186 @@
+<!DOCTYPE html>  
+<html lang="en">  
+  
+<head>  
+    <meta charset="UTF-8" />  
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src= "lib/audiosynth.js"></script> 
+	<script src="./music.js"></script>
+	<script src="./piano.js"></script>
+	<script src="./tablechord.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+</head> 
+
+<body>
+	<div class="classical-piano">
+		<div class="my-custom-scrollbar my-custom-scrollbar-primary">
+			<ul class="one-octave" id="piano"></ul>
+		</div>
+	</div>
+	<div class="table-chord" id="table-chord_id">
+		<button class="btn btn-success" onclick="createChordRow()">Show Chords Table</button>	
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script>
+	var audioSynth = new AudioSynth();
+	audioSynth.setVolume(0.5);
+	// document.onkeydown = function(evt) {
+	// 	console.log(evt);
+	// 	// code here
+	// 	let key = evt.key;
+	// 	if(key == 'z'){
+	// 		// 1. đánh dâu thẻ = data-key
+	// 		// 2. dùng jquery lấy thẻ tương ứng với key đã ấn
+	// 		// 3. chạy hàm gán trên thẻ
+	// 	}
+
+	// 	$(li).data()
+	// };
+	function playSingleNote(instrument, note, octave, delay){
+		let src = audioSynth.generate(instrument, note, octave, delay);
+		let tag = new Audio(src);		
+		tag.addEventListener('ended', function() { tag = null; });
+		tag.addEventListener('loadeddata', function(e) { 
+			e.target.play(); 
+		});
+		tag.autoplay = false;
+		tag.setAttribute('type', 'audio/wav');
+		//document.body.appendChild(p);
+		tag.load();
+	}
+
+	function createChord(mainnote, scaletype){
+		var newnotes = determineMajor(_notes, mainnote);
+		var delay = 2;
+		var octave = 3;
+		for (let i=0; i < scaletype.length; i++){
+			if (scaletype[i] === 1) {
+				var id = newnotes[i] + octave;
+				logIdname(id);
+				playSingleNote(0, newnotes[i], octave, delay);
+			}
+			if (newnotes[i] === "B") octave++;
+		}
+	}	
+
+	function removeActiveClass(){
+		var ls = document.querySelectorAll('li.active')
+		for (let i = 0; i < ls.length; i++){
+			ls[i].classList.remove("active");
+		}
+	}
+
+	function logIdname(id){
+		var li = document.getElementById(`${id}`);
+		console.log(li)
+		li.classList.add("active");	
+	}
+	function sleep(ms){
+		return new Promise(
+			resolve => setTimeout(resolve, ms)
+		);
+	}
+	async function asyncRemoveActiveClass(){
+		var ls = document.querySelectorAll('li.active')
+		for (let i = 0; i < ls.length; i++){
+			await ls[i].classList.remove("active");
+		}
+	}
+	async function playChord(mainnote, scaletype){
+		var newnotes = determineMajor(_notes, mainnote);
+		var delay = 2;
+		var octave = 3;
+		for (let i=0; i < scaletype.length; i++){
+			if (scaletype[i] === 1) {
+				var id = newnotes[i] + octave;
+				await logIdname(id);
+				 playSingleNote(0, newnotes[i], octave, delay);
+			}
+			if (newnotes[i] === "B") octave++;
+			await sleep(70);
+		}
+	}
+
+	function render(){
+		console.log(firstOctave);
+		createHTML();
+	}
+	render();
+	
+	</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="piano-body" id="container">
+	<button class="whitenote" onmousedown="playSingleNote(2, 'C', 3, 0)">C</button>
+	<button class="whitenote" onmousedown="playSingleNote(2, 'E', 3, 0)">E</button>
+	<button class="whitenote" onmousedown="playSingleNote(2, 'G', 3, 0)">G</button>
+</div> -->
+
+	<!-- <ul class="one-octave">
+		<li class="whitenote e" data-type="keyboard" data-key="z" onmousedown="playSingleNote(0, 'C', 3, 0)"></li>
+		<li class="blacknote ds" onmousedown="playSingleNote(0, 'C#', 3, 0)"></li>
+		<li class="whitenote d" onmousedown="playSingleNote(0, 'D', 3, 0)"></li>
+		<li class="blacknote cs" onmousedown="playSingleNote(0, 'D#', 3, 0)"></li>
+		<li class="whitenote c" onmousedown="playSingleNote(0, 'E', 3, 0)"></li>
+		<li class="whitenote b" onmousedown="playSingleNote(0, 'F', 3, 0)"></li>
+		<li class="blacknote as" onmousedown="playSingleNote(0, 'F#', 3, 0)"></li>
+		<li class="whitenote a" onmousedown="playSingleNote(0, 'G', 3, 0)"></li>
+		<li class="blacknote gs" onmousedown="playSingleNote(0, 'G#', 3, 0)"></li>
+		<li class="whitenote g" onmousedown="playSingleNote(0, 'A', 3, 0)"></li>
+		<li class="blacknote fs" onmousedown="playSingleNote(0, 'A#', 3, 0)"></li>
+		<li class="whitenote f" onmousedown="playSingleNote(0, 'B', 3, 0)"></li>
+		
+
+		<li class="whitenote e" onmousedown="playSingleNote(0, 'C', 4, 0)"></li>
+		<li class="blacknote ds" onmousedown="playSingleNote(0, 'C#', 4, 0)"></li>
+		<li class="whitenote d" onmousedown="playSingleNote(0, 'D', 4, 0)"></li>
+		<li class="blacknote cs" onmousedown="playSingleNote(0, 'D#', 4, 0)"></li>
+		<li class="whitenote c" onmousedown="playSingleNote(0, 'E', 4, 0)"></li>
+		<li class="whitenote b" onmousedown="playSingleNote(0, 'F', 4, 0)"></li>
+		<li class="blacknote as" onmousedown="playSingleNote(0, 'F#', 4, 0)"></li>
+		<li class="whitenote a" onmousedown="playSingleNote(0, 'G', 4, 0)"></li>
+		<li class="blacknote gs" onmousedown="playSingleNote(0, 'G#', 4, 0)"></li>
+		<li class="whitenote g" onmousedown="playSingleNote(0, 'A', 4, 0)"></li>
+		<li class="blacknote fs" onmousedown="playSingleNote(0, 'A#', 4, 0)"></li>
+		<li class="whitenote f" onmousedown="playSingleNote(0, 'B', 4, 0)"></li>
+
+		<li class="whitenote e" onmousedown="playSingleNote(0, 'C', 5, 0)"></li>
+		<li class="blacknote ds" onmousedown="playSingleNote(0, 'C#', 5, 0)"></li>
+		<li class="whitenote d" onmousedown="playSingleNote(0, 'D', 5, 0)"></li>
+		<li class="blacknote cs" onmousedown="playSingleNote(0, 'D#', 5, 0)"></li>
+		<li class="whitenote c" onmousedown="playSingleNote(0, 'E', 5, 0)"></li>
+		<li class="whitenote b" onmousedown="playSingleNote(0, 'F', 5, 0)"></li>
+		<li class="blacknote as" onmousedown="playSingleNote(0, 'F#', 5, 0)"></li>
+		<li class="whitenote a" onmousedown="playSingleNote(0, 'G', 5, 0)"></li>
+		<li class="blacknote gs" onmousedown="playSingleNote(0, 'G#', 5, 0)"></li>
+		<li class="whitenote g" onmousedown="playSingleNote(0, 'A', 5, 0)"></li>
+		<li class="blacknote fs" onmousedown="playSingleNote(0, 'A#', 5, 0)"></li>
+		<li class="whitenote f" onmousedown="playSingleNote(0, 'B', 5, 0)"></li>
+	  </ul> -->
+
+	  
